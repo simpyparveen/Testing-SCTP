@@ -29,5 +29,9 @@ A typical client uses the following sequence of socket API calls:
     recvmsg()
     close()
 
+Application USAGE: Client sends data using stdin and server recieves each message on different streams.
+Compile/Run slient and server. The server is connected until client finishes sending all streams(limits can be modified).
+
+
 
 https://www.ibm.com/support/knowledgecenter/ssw_aix_71/network/sctp_socketapis.html
