@@ -5,7 +5,7 @@ Code changes made:
 2. Use SOCK_SEQPACKET instead of SOCK_STREAM as socket protocol
 
 Compile : cc -o c blobclient.c -lsctp
-Run: ./c
+Run: ./c 127.0.0.1
 
 
 /* To enable socket features used for SCTP socket. */
