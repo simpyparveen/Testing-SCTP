@@ -1,4 +1,10 @@
 /**
+Code changes made: 
+1. Use PF_INET instead of AF_INET as address family
+2. Use SOCK_SEQPACKET instead of SOCK_STREAM as socket protocol
+Compile : cc -o s blobserver.c -lsctp
+Run: ./s
+
 Ref : https://github.com/goldenspider/sctp/blob/master/server.c
 /* To enable socket features used for SCTP socket. */
 
@@ -46,13 +52,13 @@ handle_event(void *buf)
         break;
     case SCTP_PEER_ADDR_CHANGE:
         spc = &snp->sn_paddr_change;
-        if (spc->spc_aaddr.ss_family == AF_INET) {
+        if (spc->spc_aaddr.ss_family == PF_INET) {
             sin = (struct sockaddr_in *)&spc->spc_aaddr;
-            ap = inet_ntop(AF_INET, &sin->sin_addr, addrbuf,
+            ap = inet_ntop(PF_INET, &sin->sin_addr, addrbuf,
                 INET6_ADDRSTRLEN);
         } else {
             sin6 = (struct sockaddr_in6 *)&spc->spc_aaddr;
-            ap = inet_ntop(AF_INET6, &sin6->sin6_addr, addrbuf,
+            ap = inet_ntop(PF_INET6, &sin6->sin6_addr, addrbuf,
                 INET6_ADDRSTRLEN);
         }
         printf("^^^ intf_change: %s state=%d, error=%d\n", ap,
@@ -190,8 +196,7 @@ echo(int fd)
     close(fd);
 }
 
-int
-main(void)
+int main(void)
 {
     int    lfd;
     int    cfd;
@@ -200,12 +205,13 @@ main(void)
     struct sctp_event_subscribe events;
     struct sctp_initmsg  initmsg;
 
-    if ((lfd = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP)) == -1) {
+//    if ((lfd = socket(PF_INET, SOCK_STREAM, IPPROTO_SCTP)) == -1) {
+    if ((lfd = socket(PF_INET, SOCK_SEQPACKET, IPPROTO_SCTP)) == -1) {
         perror("socket");
         exit(1);
     }
 
-    sin->sin_family = AF_INET;
+    sin->sin_family = PF_INET;
     sin->sin_port = htons(36412);
     sin->sin_addr.s_addr = INADDR_ANY;
     if (bind(lfd, (struct sockaddr *)sin, sizeof (*sin)) == -1) {
