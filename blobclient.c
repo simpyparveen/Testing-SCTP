@@ -1,10 +1,12 @@
 /*
- * Copyright 2004 Sun Microsystems, Inc.  All rights reserved.
- * Use is subject to license terms.
-
 https://github.com/goldenspider/sctp/blob/master/client.c
+Code changes made: 
+1. Use PF_INET instead of AF_INET as address family
+2. Use SOCK_SEQPACKET instead of SOCK_STREAM as socket protocol
 
- */
+Compile : cc -o c blobserver.c -lsctp
+Run: ./c
+
 
 /* To enable socket features used for SCTP socket. */
 #define __EXTENSIONS__
@@ -105,7 +107,8 @@ echo(struct sockaddr_in *addr)
     struct sctp_event_subscribe events;
 
     /* Create a one-one SCTP socket */
-    if ((fd = socket(AF_INET, SOCK_STREAM, IPPROTO_SCTP)) == -1) {
+//    if ((fd = socket(PF_INET, SOCK_STREAM, IPPROTO_SCTP)) == -1) {
+    if ((sockfd = socket(PF_INET, SOCK_SEQPACKET, IPPROTO_SCTP)) == -1) {
         perror("socket");
         exit(1);
     }
@@ -193,7 +196,7 @@ main(int argc, char **argv)
   struct sockaddr_in servaddr;
 
   bzero( (void *)&servaddr, sizeof(servaddr) );
-  servaddr.sin_family = AF_INET;
+  servaddr.sin_family = PF_INET;
   servaddr.sin_port = htons(36412);
   servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");//( "10.62.48.97" );
 
