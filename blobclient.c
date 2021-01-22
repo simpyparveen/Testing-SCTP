@@ -4,7 +4,7 @@ Code changes made:
 1. Use PF_INET instead of AF_INET as address family
 2. Use SOCK_SEQPACKET instead of SOCK_STREAM as socket protocol
 
-Compile : cc -o c blobserver.c -lsctp
+Compile : cc -o c blobclient.c -lsctp
 Run: ./c
 
 
