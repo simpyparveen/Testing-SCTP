@@ -34,4 +34,4 @@ Compile/Run slient and server. The server is connected until client finishes sen
 
 
 
-https://www.ibm.com/support/knowledgecenter/ssw_aix_71/network/sctp_socketapis.html
+# Theory Ref: https://www.ibm.com/support/knowledgecenter/ssw_aix_71/network/sctp_socketapis.html
